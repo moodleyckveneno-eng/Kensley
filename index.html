@@ -1,1 +1,575 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kensley — Managed IT & Infrastructure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1B24;
+    --panel:#16262F;
+    --panel-2:#1C2E38;
+    --line:#2A3D45;
+    --text:#E8EDE9;
+    --text-dim:#9FB0AC;
+    --signal:#4FA88A;
+    --signal-dim:#3A7A67;
+    --brass:#C9A66B;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.wordmark{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    letter-spacing:-0.02em;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* ---------- NAV ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    background:rgba(15,27,36,0.92);
+    backdrop-filter:blur(8px);
+    z-index:50;
+  }
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 0;
+  }
+  .wordmark{
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .wordmark .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--signal);
+    box-shadow:0 0 0 4px rgba(79,168,138,0.18);
+  }
+  .navlinks{
+    display:flex;
+    gap:36px;
+    font-size:0.95rem;
+    color:var(--text-dim);
+  }
+  .navlinks a:hover{color:var(--text);}
+  .nav-cta{
+    border:1px solid var(--signal-dim);
+    padding:9px 18px;
+    border-radius:3px;
+    font-size:0.9rem;
+    color:var(--text);
+    transition:border-color .2s, background .2s;
+  }
+  .nav-cta:hover{background:var(--panel-2); border-color:var(--signal);}
+  .navlinks-mobile-hide{display:flex;}
+  @media (max-width:720px){ .navlinks{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:88px 0 64px;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:48px;
+    align-items:center;
+  }
+  @media (max-width:860px){ .hero{grid-template-columns:1fr; padding:56px 0 40px;} }
+
+  .hero-kicker{
+    color:var(--signal);
+    font-size:0.95rem;
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(2.1rem, 4.6vw, 3.4rem);
+    line-height:1.08;
+    max-width:14ch;
+  }
+  .hero p{
+    margin-top:22px;
+    color:var(--text-dim);
+    font-size:1.08rem;
+    max-width:46ch;
+  }
+  .hero-actions{
+    margin-top:34px;
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .btn-primary{
+    background:var(--signal);
+    color:#0B1712;
+    padding:13px 26px;
+    border-radius:3px;
+    font-weight:600;
+    font-size:0.95rem;
+  }
+  .btn-primary:hover{background:#5FBB9B;}
+  .btn-ghost{
+    border:1px solid var(--line);
+    padding:13px 26px;
+    border-radius:3px;
+    font-size:0.95rem;
+    color:var(--text-dim);
+  }
+  .btn-ghost:hover{border-color:var(--text-dim); color:var(--text);}
+
+  /* schematic diagram */
+  .diagram{
+    aspect-ratio:1/1;
+    max-width:420px;
+    justify-self:center;
+  }
+  .diagram svg{width:100%;height:100%;}
+  .diagram-line{
+    stroke:var(--line);
+    stroke-width:1;
+  }
+  .diagram-line-live{
+    stroke:var(--signal-dim);
+    stroke-width:1;
+    stroke-dasharray:4 5;
+    animation:dash 22s linear infinite;
+  }
+  @keyframes dash{to{stroke-dashoffset:-200;}}
+  .diagram-node{
+    fill:var(--panel-2);
+    stroke:var(--signal);
+    stroke-width:1.4;
+  }
+  .diagram-node-core{
+    fill:var(--signal);
+  }
+  .diagram-label{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:9px;
+    fill:var(--text-dim);
+    letter-spacing:0.02em;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .diagram-line-live{animation:none;}
+  }
+
+  .partners{
+    border-top:1px solid var(--line);
+    padding:44px 0;
+  }
+  .partners-label{
+    color:var(--text-dim);
+    font-size:0.88rem;
+    margin-bottom:22px;
+  }
+  .partner-row{
+    display:flex;
+    gap:40px;
+    flex-wrap:wrap;
+  }
+  .partner-badge{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:14px 22px;
+    background:var(--panel);
+  }
+  .partner-badge .mark{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--signal);
+    flex-shrink:0;
+  }
+  .partner-badge span{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:1.02rem;
+  }
+  .partner-badge small{
+    display:block;
+    color:var(--text-dim);
+    font-size:0.78rem;
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    margin-top:2px;
+  }
+
+  .strip{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:22px 0;
+  }
+  .strip .wrap{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+    color:var(--text-dim);
+    font-size:0.88rem;
+  }
+
+  /* ---------- SECTION HEADS ---------- */
+  section{padding:88px 0;}
+  .section-head{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    margin-bottom:56px;
+    align-items:end;
+  }
+  @media (max-width:720px){ .section-head{grid-template-columns:1fr;} }
+  .section-head h2{
+    font-size:clamp(1.6rem,3vw,2.2rem);
+  }
+  .section-head p{
+    color:var(--text-dim);
+  }
+
+  /* ---------- SERVICES ---------- */
+  .services{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--line);
+    border-left:1px solid var(--line);
+  }
+  @media (max-width:860px){ .services{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .services{grid-template-columns:1fr;} }
+  .service{
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:32px 28px;
+  }
+  .service h3{
+    font-size:1.08rem;
+    margin-bottom:12px;
+    font-weight:500;
+  }
+  .service p{
+    color:var(--text-dim);
+    font-size:0.94rem;
+  }
+  .service-mark{
+    color:var(--signal);
+    font-size:0.82rem;
+    margin-bottom:16px;
+    display:block;
+  }
+
+  /* ---------- PROCESS (real sequence, numbered) ---------- */
+  .process-list{
+    counter-reset:step;
+  }
+  .step{
+    display:grid;
+    grid-template-columns:64px 1fr;
+    gap:24px;
+    padding:28px 0;
+    border-top:1px solid var(--line);
+  }
+  .step:last-child{border-bottom:1px solid var(--line);}
+  .step-num{
+    font-family:'Space Grotesk',sans-serif;
+    color:var(--signal);
+    font-size:1.1rem;
+  }
+  .step h3{font-size:1.1rem; margin-bottom:8px; font-weight:500;}
+  .step p{color:var(--text-dim); max-width:56ch; font-size:0.95rem;}
+
+  /* ---------- STATS ---------- */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+  }
+  @media (max-width:720px){ .stats{grid-template-columns:1fr 1fr;} }
+  .stat b{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:2.1rem;
+    display:block;
+    color:var(--text);
+  }
+  .stat span{
+    color:var(--text-dim);
+    font-size:0.88rem;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:56px;
+    display:grid;
+    grid-template-columns:1.3fr 0.7fr;
+    gap:32px;
+    align-items:center;
+  }
+  @media (max-width:720px){ .cta{grid-template-columns:1fr; padding:36px;} }
+  .cta h2{font-size:1.7rem; max-width:18ch;}
+  .cta-form{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .cta-form input{
+    background:var(--ink);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:12px 14px;
+    border-radius:3px;
+    font-family:'Inter',sans-serif;
+    font-size:0.94rem;
+  }
+  .cta-form input::placeholder{color:var(--text-dim);}
+  .cta-form input:focus{outline:2px solid var(--signal); outline-offset:1px;}
+  .cta-form button{
+    background:var(--signal);
+    color:#0B1712;
+    border:none;
+    padding:12px 14px;
+    border-radius:3px;
+    font-weight:600;
+    font-family:'Inter',sans-serif;
+    font-size:0.94rem;
+    cursor:pointer;
+  }
+  .cta-form button:hover{background:#5FBB9B;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:40px 0;
+  }
+  footer .wrap{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+    color:var(--text-dim);
+    font-size:0.88rem;
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--signal);
+    outline-offset:2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#top" class="wordmark">
+      <svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true">
+        <line x1="16" y1="10" x2="16" y2="54" stroke="#3A7A67" stroke-width="2.6"/>
+        <line x1="16" y1="32" x2="48" y2="10" stroke="#3A7A67" stroke-width="2.6"/>
+        <line x1="16" y1="32" x2="48" y2="54" stroke="#3A7A67" stroke-width="2.6"/>
+        <circle cx="16" cy="10" r="4.5" fill="#1C2E38" stroke="#4FA88A" stroke-width="1.6"/>
+        <circle cx="16" cy="54" r="4.5" fill="#1C2E38" stroke="#4FA88A" stroke-width="1.6"/>
+        <circle cx="48" cy="10" r="4.5" fill="#1C2E38" stroke="#4FA88A" stroke-width="1.6"/>
+        <circle cx="48" cy="54" r="4.5" fill="#1C2E38" stroke="#4FA88A" stroke-width="1.6"/>
+        <circle cx="16" cy="32" r="7" fill="#4FA88A"/>
+      </svg>
+      Kensley
+    </a>
+    <div class="navlinks">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="nav-cta">Talk to us</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero wrap" style="padding-top:88px;">
+    <div>
+      <div class="hero-kicker">Managed IT for growing businesses</div>
+      <h1>Infrastructure that stays out of your way</h1>
+      <p>Kensley runs the servers, networks, and security your business depends on, so your team can stop troubleshooting and get back to work.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Book a systems review</a>
+        <a href="#services" class="btn-ghost">See what we cover</a>
+      </div>
+    </div>
+    <div class="diagram" aria-hidden="true">
+      <svg viewBox="0 0 400 400">
+        <line class="diagram-line" x1="200" y1="200" x2="80" y2="90"/>
+        <line class="diagram-line" x1="200" y1="200" x2="320" y2="90"/>
+        <line class="diagram-line" x1="200" y1="200" x2="70" y2="290"/>
+        <line class="diagram-line" x1="200" y1="200" x2="330" y2="300"/>
+        <line class="diagram-line-live" x1="200" y1="200" x2="200" y2="60"/>
+        <line class="diagram-line-live" x1="80" y1="90" x2="200" y2="60"/>
+        <line class="diagram-line-live" x1="320" y1="90" x2="200" y2="60"/>
+
+        <circle class="diagram-node" cx="80" cy="90" r="7"/>
+        <circle class="diagram-node" cx="320" cy="90" r="7"/>
+        <circle class="diagram-node" cx="70" cy="290" r="7"/>
+        <circle class="diagram-node" cx="330" cy="300" r="7"/>
+        <circle class="diagram-node" cx="200" cy="60" r="6"/>
+        <circle class="diagram-node diagram-node-core" cx="200" cy="200" r="13"/>
+
+        <text class="diagram-label" x="92" y="86">CLOUD</text>
+        <text class="diagram-label" x="255" y="86">NETWORK</text>
+        <text class="diagram-label" x="10" y="286">DEVICES</text>
+        <text class="diagram-label" x="288" y="296">BACKUP</text>
+        <text class="diagram-label" x="150" y="50">SECURITY</text>
+      </svg>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="wrap">
+      <span>24/7 monitored infrastructure</span>
+      <span>Response inside 15 minutes</span>
+      <span>SOC 2–aligned security practices</span>
+      <span>No long-term lock-in contracts</span>
+    </div>
+  </div>
+
+  <div class="partners wrap">
+    <div class="partners-label">Certified to work across your existing stack</div>
+    <div class="partner-row">
+      <div class="partner-badge">
+        <span class="mark"></span>
+        <span>Cisco<small>Networking partner</small></span>
+      </div>
+      <div class="partner-badge">
+        <span class="mark"></span>
+        <span>Microsoft<small>365 & Azure partner</small></span>
+      </div>
+    </div>
+  </div>
+
+  <section id="services" class="wrap">
+    <div class="section-head">
+      <h2>Everything under one roof</h2>
+      <p>Six practice areas, one point of contact. You call Kensley, not six different vendors.</p>
+    </div>
+    <div class="services">
+      <div class="service">
+        <span class="service-mark">01</span>
+        <h3>Managed IT support</h3>
+        <p>Helpdesk, device management, and on-call troubleshooting for every person on your team.</p>
+      </div>
+      <div class="service">
+        <span class="service-mark">02</span>
+        <h3>Cloud infrastructure</h3>
+        <p>Migrations, cost cleanup, and ongoing management across AWS, Azure, and Google Cloud.</p>
+      </div>
+      <div class="service">
+        <span class="service-mark">03</span>
+        <h3>Cybersecurity</h3>
+        <p>Endpoint protection, phishing defense, and incident response built for lean internal teams.</p>
+      </div>
+      <div class="service">
+        <span class="service-mark">04</span>
+        <h3>Network design</h3>
+        <p>Office and warehouse networking that's fast, segmented, and documented properly.</p>
+      </div>
+      <div class="service">
+        <span class="service-mark">05</span>
+        <h3>Backup & recovery</h3>
+        <p>Automated, tested backups with a recovery plan you've actually seen work before you need it.</p>
+      </div>
+      <div class="service">
+        <span class="service-mark">06</span>
+        <h3>Compliance support</h3>
+        <p>Documentation and controls mapped to HIPAA, SOC 2, or whatever your industry requires.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" class="wrap">
+    <div class="section-head">
+      <h2>How an engagement runs</h2>
+      <p>Four stages, same order every time, so you always know what's next.</p>
+    </div>
+    <div class="process-list">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <h3>Assess</h3>
+          <p>We audit your current setup — hardware, cloud spend, security gaps — and hand you a plain-language report, no obligation to continue.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <h3>Build</h3>
+          <p>We fix what's broken and put the missing pieces in place: monitoring, backups, access controls.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <h3>Secure</h3>
+          <p>We harden the environment against the threats most likely to hit a business your size.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div>
+          <h3>Support</h3>
+          <p>Ongoing monitoring and a helpdesk your team can actually reach, with a named engineer who knows your setup.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="stats">
+      <div class="stat"><b>140+</b><span>businesses supported</span></div>
+      <div class="stat"><b>99.9%</b><span>network uptime average</span></div>
+      <div class="stat"><b>15 min</b><span>average first response</span></div>
+      <div class="stat"><b>9 yrs</b><span>average client relationship</span></div>
+    </div>
+  </section>
+
+  <section id="contact" class="wrap">
+    <div class="cta">
+      <div>
+        <h2>Let's look at what you're running now</h2>
+        <p style="color:var(--text-dim); margin-top:14px;">A 30-minute call, no pitch deck. We'll tell you honestly where the risk is.</p>
+      </div>
+      <form class="cta-form" onsubmit="event.preventDefault(); const f=this; const name=f.querySelector('[placeholder=\'Full name\']').value; const email=f.querySelector('[placeholder=\'Work email\']').value; const co=f.querySelector('[placeholder=\'Company name\']').value; window.location.href='mailto:c.k.moodley@outlook.com?subject=' + encodeURIComponent('New enquiry from ' + name) + '&body=' + encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nCompany: ' + co); f.querySelector('button').textContent='Opening email…';">
+        <input type="text" placeholder="Full name" required>
+        <input type="email" placeholder="Work email" required>
+        <input type="text" placeholder="Company name">
+        <button type="submit">Request a call</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Kensley. All rights reserved.</span>
+    <span><a href="mailto:c.k.moodley@outlook.com">c.k.moodley@outlook.com</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
